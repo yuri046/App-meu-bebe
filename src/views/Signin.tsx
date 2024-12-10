@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../services/authentication";
 import { useState } from "react";
 import { handleChange } from "../utils/core";
-import { validateEmail, validPassword } from "../utils/validators";
+
 
 const SignIn: React.FC = () => {
     const navigate = useNavigate();
@@ -27,12 +27,12 @@ const SignIn: React.FC = () => {
         let { data: response, error } = await signIn(data.email.value, data.password.value, supabase);
 
         if (!data.email.value || !data.password.value) {
-            showSnackMessage("Por favor, preencha todos os campos.");
+            showAlertMessage("Por favor, preencha todos os campos.", 'warning');
             return;
         }
 
         if (error && error.message === "Invalid login credentials"){
-            showSnackMessage("Dados de usuário inválidos");
+            showAlertMessage("Dados de usuário inválidos", 'warning');
         } else {
             localStorage.setItem("session", JSON.stringify(response.session));
             localStorage.setItem("user", JSON.stringify(response.user));
